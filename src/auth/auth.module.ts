@@ -11,7 +11,7 @@ config();
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '60d' },
     }),
-  ], 
+  ],
   controllers: [AuthController],
   providers: [AuthService],
 })
