@@ -8,6 +8,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 // import { User } from './users/users.module';
 import { config } from 'dotenv';
 config();
+//----------------------------------------------------------------
 @Module({
   imports: [AuthModule, UsersModule, ShiftsModule, AssignmentsModule
     ,SequelizeModule.forRoot({

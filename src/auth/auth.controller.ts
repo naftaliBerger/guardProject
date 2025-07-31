@@ -4,16 +4,16 @@ import { register } from './typse/register';
 import {Login} from './typse/login';
 import { from } from 'rxjs';
 
-
+//---------------------------------------------------------
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
+//---------------------------------------------------------
   @Post('register')
   async register(@Body() body: register) {
     return await this.authService.register(body.username, body.password, body.role);
   }
-
+//---------------------------------------------------------
   @Post('login')
   async login(@Body() body: Login) {
     const token = await this.authService.login(body.username, body.password);

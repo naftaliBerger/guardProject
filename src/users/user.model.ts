@@ -1,14 +1,5 @@
-import {
-  Table,
-  Column,
-  Model,
-  DataType,
-  PrimaryKey,
-  AutoIncrement,
-  Default
-} from 'sequelize-typescript';
-
-// 🟢 הגדרת טיפוסים מלאים
+import {Table,  Column,  Model,  DataType,  PrimaryKey,  AutoIncrement,  Default} from 'sequelize-typescript';
+//-------------------------------------------
 export interface UserAttributes {
   id: number;
   username: string;
@@ -16,11 +7,10 @@ export interface UserAttributes {
   role: string;
   created_at?: Date;
 }
-
+//-------------------------------------------
 export interface UserCreationAttributes
   extends Omit<UserAttributes, 'id' | 'created_at'> {}
 
-// 🟢 שימוש בשם אחיד: User (לא Users)
 @Table({ tableName: 'users', timestamps: false })
 export class User extends Model<UserAttributes, UserCreationAttributes> {
   @PrimaryKey

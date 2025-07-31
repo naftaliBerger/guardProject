@@ -3,15 +3,14 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/user.model';
-
+//-------------------------------------------------------
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     private usersService: UsersService
   ) {}
-
-  // פונקציית הרשמה - שמירה ב-DB
+//--------------------------------------------------------
   async register(username: string, password: string, role: string): Promise<string> {
     const exists = await this.usersService.findByUsername(username);
     if (exists) {
@@ -28,8 +27,7 @@ export class AuthService {
 
     return `User ${username} registered successfully with role ${role}`;
   }
-
-  // פונקציית התחברות - קריאה מה-DB
+//-----------------------------------------------------------
   async login(username: string, password: string): Promise<string> {
     const user = await this.usersService.findByUsername(username.toLowerCase());
     if (!user) {
