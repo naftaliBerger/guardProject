@@ -1,34 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import {User} from '../users/user.model'
-
+import { UsersService } from '../users/users.service';
+import { User } from '../users/user.model';
 
 @Injectable()
 export class AuthService {
-  private users: User[] = []; 
+  constructor(
+    private jwtService: JwtService,
+    private usersService: UsersService
+  ) {}
 
-  constructor(private jwtService: JwtService) {}
-
-  async register(username: string, password: string, role: string){
-    const exists = this.users.find(u => u.username === username);
+  // פונקציית הרשמה - שמירה ב-DB
+  async register(username: string, password: string, role: string): Promise<string> {
+    const exists = await this.usersService.findByUsername(username);
     if (exists) {
       throw new Error('User already exists');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    this.users.push({
-        username, password: hashedPassword, role,
-        id: 0,
-        created_at: new Date()
+    await this.usersService.createUser({
+      username,
+      password: hashedPassword,
+      role
     });
 
     return `User ${username} registered successfully with role ${role}`;
   }
 
-  async login(username: string, password: string){
-    const user = this.users.find(u => u.username === username);
+  // פונקציית התחברות - קריאה מה-DB
+  async login(username: string, password: string): Promise<string> {
+    const user = await this.usersService.findByUsername(username.toLowerCase());
     if (!user) {
       throw new Error('User not found');
     }
